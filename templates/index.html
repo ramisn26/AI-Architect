@@ -1,0 +1,693 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Architectural Design System{% endblock %}
+
+{% block content %}
+<!-- AI Banner Carousel -->
+<div id="aiCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#aiCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#aiCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#aiCarousel" data-bs-slide-to="2"></button>
+    </div>
+    
+    <div class="carousel-inner">
+        <!-- Slide 1: AI-Powered Design -->
+        <div class="carousel-item active">
+            <div class="carousel-slide slide-1">
+                <div class="carousel-overlay"></div>
+                <div class="container">
+                    <div class="row align-items-center min-vh-75">
+                        <div class="col-lg-6">
+                            <div class="carousel-content">
+                                <h1 class="display-3 fw-bold text-white mb-4">
+                                    <i class="fas fa-brain me-3 text-warning"></i>
+                                    AI-Powered Architecture
+                                </h1>
+                                <p class="lead text-white mb-4">
+                                    Transform your vision into professional blueprints with cutting-edge AI technology. 
+                                    Generate industry-standard designs in minutes, not weeks.
+                                </p>
+                                <div class="d-grid gap-2 d-md-flex">
+                                    <a href="{{ url_for('design_interface') }}" class="btn btn-warning btn-lg px-4 me-md-2">
+                                        <i class="fas fa-rocket me-2"></i>Start Creating
+                                    </a>
+                                    <a href="{{ url_for('gallery') }}" class="btn btn-outline-light btn-lg px-4">
+                                        <i class="fas fa-images me-2"></i>View Gallery
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="ai-visual text-center">
+                                <div class="floating-elements">
+                                    <div class="ai-icon ai-icon-1">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                    <div class="ai-icon ai-icon-2">
+                                        <i class="fas fa-cube"></i>
+                                    </div>
+                                    <div class="ai-icon ai-icon-3">
+                                        <i class="fas fa-drafting-compass"></i>
+                                    </div>
+                                    <div class="ai-icon ai-icon-4">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                </div>
+                                <div class="central-ai-brain">
+                                    <i class="fas fa-brain fa-5x text-warning"></i>
+                                    <div class="brain-pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 2: Professional Blueprints -->
+        <div class="carousel-item">
+            <div class="carousel-slide slide-2">
+                <div class="carousel-overlay"></div>
+                <div class="container">
+                    <div class="row align-items-center min-vh-75">
+                        <div class="col-lg-6">
+                            <div class="carousel-content">
+                                <h1 class="display-3 fw-bold text-white mb-4">
+                                    <i class="fas fa-drafting-compass me-3 text-info"></i>
+                                    Professional Blueprints
+                                </h1>
+                                <p class="lead text-white mb-4">
+                                    Industry-standard CAD drawings with precise measurements, professional symbols, 
+                                    and detailed annotations ready for construction.
+                                </p>
+                                <div class="feature-highlights">
+                                    <div class="highlight-item">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        <span>Vastu & Building Code Compliant</span>
+                                    </div>
+                                    <div class="highlight-item">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        <span>Professional CAD Standards</span>
+                                    </div>
+                                    <div class="highlight-item">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        <span>Construction-Ready Drawings</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="blueprint-visual">
+                                <div class="blueprint-mockup">
+                                    <div class="blueprint-grid"></div>
+                                    <div class="blueprint-content">
+                                        <i class="fas fa-home fa-4x text-info mb-3"></i>
+                                        <h4 class="text-info">Professional Blueprint</h4>
+                                        <p class="text-muted">Industry-Standard CAD Drawing</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 3: 3D Visualization -->
+        <div class="carousel-item">
+            <div class="carousel-slide slide-3">
+                <div class="carousel-overlay"></div>
+                <div class="container">
+                    <div class="row align-items-center min-vh-75">
+                        <div class="col-lg-6">
+                            <div class="carousel-content">
+                                <h1 class="display-3 fw-bold text-white mb-4">
+                                    <i class="fas fa-cube me-3 text-success"></i>
+                                    Interactive 3D Views
+                                </h1>
+                                <p class="lead text-white mb-4">
+                                    Photorealistic 3D visualizations with interactive controls. 
+                                    Walk through your design and experience it before building.
+                                </p>
+                                <div class="stats-row">
+                                    <div class="stat-item">
+                                        <h3 class="text-warning">10K+</h3>
+                                        <p>Designs Created</p>
+                                    </div>
+                                    <div class="stat-item">
+                                        <h3 class="text-warning">5K+</h3>
+                                        <p>Happy Users</p>
+                                    </div>
+                                    <div class="stat-item">
+                                        <h3 class="text-warning">95%</h3>
+                                        <p>Time Saved</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="threed-visual">
+                                <div class="threed-mockup">
+                                    <div class="threed-scene">
+                                        <div class="building-3d">
+                                            <i class="fas fa-cube fa-5x text-success"></i>
+                                            <div class="rotation-indicator"></div>
+                                        </div>
+                                        <div class="control-hints">
+                                            <span class="hint"><i class="fas fa-mouse"></i> Rotate</span>
+                                            <span class="hint"><i class="fas fa-search-plus"></i> Zoom</span>
+                                            <span class="hint"><i class="fas fa-arrows-alt"></i> Pan</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#aiCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#aiCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- Features Section -->
+<div class="container mb-5">
+    <div class="row text-center mb-5">
+        <div class="col-12">
+            <h2 class="display-5 fw-bold mb-3">Comprehensive Design Features</h2>
+            <p class="lead text-muted">Everything you need for professional architectural design</p>
+        </div>
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-calculator fa-3x text-primary"></i>
+                    </div>
+                    <h5 class="card-title">Intelligent Calculations</h5>
+                    <p class="card-text">
+                        Automated FAR calculations, optimal room allocation, and compliance 
+                        with building codes and Vastu principles.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-drafting-compass fa-3x text-success"></i>
+                    </div>
+                    <h5 class="card-title">CAD-Style Floor Plans</h5>
+                    <p class="card-text">
+                        Professional 2D blueprints with accurate dimensions, door/window 
+                        placements, and technical annotations.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-cube fa-3x text-info"></i>
+                    </div>
+                    <h5 class="card-title">3D Visualizations</h5>
+                    <p class="card-text">
+                        Photorealistic exterior views and interior walkthroughs with 
+                        orientation-based lighting simulation.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-chart-pie fa-3x text-warning"></i>
+                    </div>
+                    <h5 class="card-title">Analytics Dashboard</h5>
+                    <p class="card-text">
+                        Space utilization analysis, efficiency scoring, cost estimates, 
+                        and optimization recommendations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Process Section -->
+<div class="bg-light py-5 mb-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold mb-3">Simple 4-Step Process</h2>
+                <p class="lead text-muted">From concept to comprehensive design package</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="process-step text-center">
+                    <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                        1
+                    </div>
+                    <h5>Input Requirements</h5>
+                    <p class="text-muted">
+                        Enter plot size, orientation, bedroom configuration, and preferences
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="process-step text-center">
+                    <div class="step-number bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                        2
+                    </div>
+                    <h5>AI Analysis</h5>
+                    <p class="text-muted">
+                        Our AI engine calculates optimal layout and generates design recommendations
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="process-step text-center">
+                    <div class="step-number bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                        3
+                    </div>
+                    <h5>Generate Visuals</h5>
+                    <p class="text-muted">
+                        Create 2D floor plans, 3D renders, and analytical charts automatically
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="process-step text-center">
+                    <div class="step-number bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                        4
+                    </div>
+                    <h5>Download Package</h5>
+                    <p class="text-muted">
+                        Get complete design portfolio with blueprints, reports, and 3D views
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Benefits Section -->
+<div class="container mb-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h2 class="display-5 fw-bold mb-4">Why Choose Our System?</h2>
+            <div class="benefits-list">
+                <div class="benefit-item d-flex align-items-start mb-3">
+                    <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                    <div>
+                        <h6 class="mb-1">Vastu & Feng Shui Compliant</h6>
+                        <p class="text-muted mb-0">Designs follow traditional principles for positive energy flow</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item d-flex align-items-start mb-3">
+                    <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                    <div>
+                        <h6 class="mb-1">Building Code Compliance</h6>
+                        <p class="text-muted mb-0">Automatic adherence to local zoning and safety regulations</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item d-flex align-items-start mb-3">
+                    <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                    <div>
+                        <h6 class="mb-1">Cost & Time Efficient</h6>
+                        <p class="text-muted mb-0">Generate professional designs in minutes, not weeks</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item d-flex align-items-start mb-3">
+                    <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                    <div>
+                        <h6 class="mb-1">Professional Quality</h6>
+                        <p class="text-muted mb-0">CAD-standard outputs suitable for construction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="stats-grid">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="stat-card bg-primary text-white p-4 rounded text-center">
+                            <h3 class="display-6 fw-bold mb-1">500+</h3>
+                            <p class="mb-0">Designs Generated</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card bg-success text-white p-4 rounded text-center">
+                            <h3 class="display-6 fw-bold mb-1">95%</h3>
+                            <p class="mb-0">Client Satisfaction</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card bg-info text-white p-4 rounded text-center">
+                            <h3 class="display-6 fw-bold mb-1">24/7</h3>
+                            <p class="mb-0">Available</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card bg-warning text-white p-4 rounded text-center">
+                            <h3 class="display-6 fw-bold mb-1">5min</h3>
+                            <p class="mb-0">Avg. Generation Time</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="cta-section bg-primary text-white py-5">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-3">Ready to Design Your Dream Home?</h2>
+        <p class="lead mb-4">
+            Join thousands of satisfied users who have created their perfect living spaces
+        </p>
+        <a href="{{ url_for('design_interface') }}" class="btn btn-light btn-lg px-5">
+            <i class="fas fa-rocket me-2"></i>Get Started Now
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* AI Carousel Styles */
+.carousel-slide {
+    min-height: 75vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.slide-1 {
+    background: var(--gradient-primary);
+}
+
+.slide-2 {
+    background: var(--gradient-secondary);
+}
+
+.slide-3 {
+    background: var(--gradient-accent);
+}
+
+.carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 1;
+}
+
+.carousel-content {
+    position: relative;
+    z-index: 2;
+}
+
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+/* AI Visual Elements */
+.ai-visual {
+    position: relative;
+    height: 400px;
+}
+
+.floating-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.ai-icon {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    animation: float 6s ease-in-out infinite;
+}
+
+.ai-icon-1 {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.ai-icon-2 {
+    top: 10%;
+    right: 20%;
+    animation-delay: 1.5s;
+}
+
+.ai-icon-3 {
+    bottom: 30%;
+    left: 20%;
+    animation-delay: 3s;
+}
+
+.ai-icon-4 {
+    bottom: 20%;
+    right: 10%;
+    animation-delay: 4.5s;
+}
+
+.central-ai-brain {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.brain-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border: 2px solid rgba(0, 210, 211, 0.5);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
+/* Blueprint Visual */
+.blueprint-mockup {
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.blueprint-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(rgba(0,123,255,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,123,255,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.blueprint-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px;
+}
+
+/* 3D Visual */
+.threed-mockup {
+    background: #1a1a1a;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+}
+
+.threed-scene {
+    position: relative;
+}
+
+.building-3d {
+    position: relative;
+    display: inline-block;
+    animation: rotate3d 10s linear infinite;
+}
+
+.rotation-indicator {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #28a745;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+.control-hints {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.hint {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+@keyframes rotate3d {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Feature Highlights */
+.feature-highlights {
+    margin-top: 30px;
+}
+
+.highlight-item {
+    margin-bottom: 15px;
+    color: white;
+    font-size: 1.1rem;
+}
+
+/* Stats Row */
+.stats-row {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stat-item p {
+    color: rgba(255,255,255,0.8);
+    margin: 0;
+}
+
+/* Existing Styles */
+.feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.stat-card {
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: scale(1.05);
+}
+
+.benefit-item {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.benefit-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .carousel-slide {
+        min-height: 60vh;
+    }
+    
+    .ai-visual {
+        height: 300px;
+    }
+    
+    .stats-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .display-3 {
+        font-size: 2rem;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+
+{% block title %}Upgrade to {{ plan.name }} - PaviRami Architectural Design System{% endblock %}
+
+{% block extra_css %}
+<style>
+.upgrade-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.upgrade-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin: -50px auto 50px;
+    max-width: 600px;
+    position: relative;
+    z-index: 2;
+}
+
+.plan-highlight {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.plan-price {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 20px 0;
+}
+
+.plan-price-period {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.feature-comparison {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+}
+
+.comparison-table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.comparison-table th {
+    background: #667eea;
+    color: white;
+    font-weight: 600;
+}
+
+.feature-available {
+    color: #28a745;
+    font-size: 1.2rem;
+}
+
+.feature-unavailable {
+    color: #dc3545;
+    font-size: 1.2rem;
+}
+
+.payment-notice {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 30px 0;
+    text-align: center;
+}
+
+.benefits-list {
+    list-style: none;
+    padding: 0;
+}
+
+.benefits-list li {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.benefits-list li i {
+    color: #28a745;
+    margin-right: 15px;
+    width: 20px;
+}
+
+.upgrade-actions {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.upgrade-actions .btn {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+.testimonial {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin: 30px 0;
+    text-align: center;
+}
+
+.testimonial-text {
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.testimonial-author {
+    font-weight: 600;
+    color: #667eea;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="upgrade-header">
+    <div class="container">
+        <h1 class="mb-3">Upgrade to {{ plan.name }}</h1>
+        <p class="lead">Unlock powerful features and accelerate your architectural workflow</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="upgrade-card">
+        <div class="plan-highlight">
+            <h2>{{ plan.name }} Plan</h2>
+            <div class="plan-price">
+                ${{ plan.price.monthly }}
+                <span class="plan-price-period">/month</span>
+            </div>
+            <p class="mb-0">
+                {% if plan_name == 'pro' %}
+                    Perfect for professional architects and growing practices
+                {% elif plan_name == 'elite' %}
+                    Complete solution for architecture firms and enterprises
+                {% endif %}
+            </p>
+        </div>
+        
+        <div class="feature-comparison">
+            <h4 class="text-center mb-4">What You'll Get</h4>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Your Current Plan</th>
+                        <th>{{ plan.name }} Plan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Designs per Month</strong></td>
+                        <td>
+                            {% set current_features = user_manager.get_plan_features(user.subscription_plan) %}
+                            {% if current_features.max_designs_per_month == 999 %}
+                                Unlimited
+                            {% else %}
+                                {{ current_features.max_designs_per_month }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if plan.features.max_designs_per_month == 999 %}
+                                <strong class="text-success">Unlimited</strong>
+                            {% else %}
+                                <strong class="text-success">{{ plan.features.max_designs_per_month }}</strong>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>Download Blueprints</strong></td>
+                        <td>
+                            <i class="fas fa-{{ 'check' if current_features.can_download_blueprints else 'times' }} feature-{{ 'available' if current_features.can_download_blueprints else 'unavailable' }}"></i>
+                        </td>
+                        <td>
+                            <i class="fas fa-check feature-available"></i>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>Save Designs</strong></td>
+                        <td>
+                            {% if current_features.can_save_designs %}
+                                {% if current_features.max_saved_designs == 999 %}
+                                    Unlimited
+                                {% else %}
+                                    {{ current_features.max_saved_designs }}
+                                {% endif %}
+                            {% else %}
+                                <i class="fas fa-times feature-unavailable"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if plan.features.max_saved_designs == 999 %}
+                                <strong class="text-success">Unlimited</strong>
+                            {% else %}
+                                <strong class="text-success">{{ plan.features.max_saved_designs }}</strong>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>Analytics Dashboard</strong></td>
+                        <td>
+                            <i class="fas fa-{{ 'check' if current_features.can_access_analytics else 'times' }} feature-{{ 'available' if current_features.can_access_analytics else 'unavailable' }}"></i>
+                        </td>
+                        <td>
+                            <i class="fas fa-check feature-available"></i>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>Priority Support</strong></td>
+                        <td>
+                            <i class="fas fa-{{ 'check' if current_features.priority_support else 'times' }} feature-{{ 'available' if current_features.priority_support else 'unavailable' }}"></i>
+                        </td>
+                        <td>
+                            <i class="fas fa-check feature-available"></i>
+                        </td>
+                    </tr>
+                    
+                    {% if plan_name == 'elite' %}
+                    <tr>
+                        <td><strong>API Access</strong></td>
+                        <td>
+                            <i class="fas fa-times feature-unavailable"></i>
+                        </td>
+                        <td>
+                            <i class="fas fa-check feature-available"></i>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>Commercial License</strong></td>
+                        <td>
+                            <i class="fas fa-times feature-unavailable"></i>
+                        </td>
+                        <td>
+                            <i class="fas fa-check feature-available"></i>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="payment-notice">
+            <i class="fas fa-info-circle fa-2x text-warning mb-3"></i>
+            <h5>Payment Integration Coming Soon</h5>
+            <p class="mb-0">
+                We're currently setting up secure payment processing. 
+                Payment options will be available in the next update.
+                For now, continue enjoying your free trial!
+            </p>
+        </div>
+        
+        <div class="upgrade-actions">
+            <button class="btn btn-primary btn-lg" disabled>
+                <i class="fas fa-credit-card me-2"></i>
+                Upgrade to {{ plan.name }} (Coming Soon)
+            </button>
+            <a href="{{ url_for('auth.subscription') }}" class="btn btn-outline-secondary btn-lg">
+                <i class="fas fa-arrow-left me-2"></i>
+                Back to Plans
+            </a>
+        </div>
+    </div>
+    
+    <!-- Benefits Section -->
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="testimonial">
+                <div class="testimonial-text">
+                    "The {{ plan.name }} plan transformed our workflow. We're creating professional blueprints 10x faster than before!"
+                </div>
+                <div class="testimonial-author">
+                    - Sarah Johnson, Lead Architect
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="testimonial">
+                <h5 class="mb-3">Why Upgrade?</h5>
+                <ul class="benefits-list">
+                    <li>
+                        <i class="fas fa-rocket"></i>
+                        Increase productivity by 95%
+                    </li>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        Save hours on each project
+                    </li>
+                    <li>
+                        <i class="fas fa-users"></i>
+                        Impress clients with professional results
+                    </li>
+                    <li>
+                        <i class="fas fa-chart-line"></i>
+                        Grow your architecture practice
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FAQ Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="text-center mb-4">Frequently Asked Questions</h3>
+            
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            Can I cancel anytime?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes! You can cancel your subscription at any time. Your plan will remain active until the end of your billing period.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Is there a free trial?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes! All paid plans come with a 14-day free trial. No credit card required to start.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            What payment methods do you accept?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            We will accept all major credit cards (Visa, Mastercard, American Express) and PayPal once payment processing is enabled.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

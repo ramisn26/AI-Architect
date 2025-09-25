@@ -1,0 +1,351 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - {{ user.first_name }} {{ user.last_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+.dashboard-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 0;
+    margin-bottom: 30px;
+}
+
+.stats-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+}
+
+.stats-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.stats-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.stats-label {
+    color: #666;
+    font-size: 14px;
+}
+
+.progress-ring {
+    width: 120px;
+    height: 120px;
+    position: relative;
+}
+
+.progress-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.progress-ring circle {
+    fill: transparent;
+    stroke-width: 8;
+    stroke-linecap: round;
+}
+
+.progress-ring .background {
+    stroke: #e9ecef;
+}
+
+.progress-ring .progress {
+    stroke: #667eea;
+    stroke-dasharray: 314;
+    stroke-dashoffset: 314;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.plan-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.plan-basic { background: #e9ecef; color: #6c757d; }
+.plan-pro { background: #667eea; color: white; }
+.plan-elite { background: #764ba2; color: white; }
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.feature-list li:last-child {
+    border-bottom: none;
+}
+
+.feature-available {
+    color: #28a745;
+}
+
+.feature-unavailable {
+    color: #dc3545;
+}
+
+.quick-action-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.quick-action-card .btn {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.quick-action-card .btn:hover {
+    background: white;
+    color: #667eea;
+    transform: translateY(-2px);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="mb-2">Welcome back, {{ user.first_name }}!</h1>
+                <p class="mb-0">Ready to create amazing architectural designs?</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <span class="plan-badge plan-{{ user.subscription_plan.value }}">
+                    {{ subscription_info.plan }} Plan
+                </span>
+                <div class="mt-2">
+                    <small>{{ subscription_info.status }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Usage Statistics -->
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="stats-card">
+                        <div class="d-flex align-items-center">
+                            <div class="progress-ring me-3">
+                                <svg>
+                                    <circle class="background" cx="60" cy="60" r="50"></circle>
+                                    <circle class="progress" cx="60" cy="60" r="50" 
+                                            style="stroke-dashoffset: {{ 314 - (subscription_info.designs_used / subscription_info.designs_limit * 314) if subscription_info.designs_limit > 0 else 314 }}"></circle>
+                                </svg>
+                                <div class="progress-text">
+                                    <div class="stats-number" style="font-size: 20px;">{{ subscription_info.designs_used }}</div>
+                                    <div class="stats-label">of {{ subscription_info.designs_limit }}</div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5>Designs This Month</h5>
+                                <p class="text-muted mb-0">
+                                    {% if subscription_info.designs_limit - subscription_info.designs_used > 0 %}
+                                        {{ subscription_info.designs_limit - subscription_info.designs_used }} remaining
+                                    {% else %}
+                                        Limit reached
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon" style="background: #28a745;">
+                            <i class="fas fa-save"></i>
+                        </div>
+                        <div class="stats-number">{{ subscription_info.saved_designs }}</div>
+                        <div class="stats-label">Saved Designs</div>
+                        <small class="text-muted">
+                            {% if features.max_saved_designs > 0 %}
+                                {{ features.max_saved_designs - subscription_info.saved_designs }} slots available
+                            {% else %}
+                                Upgrade to save designs
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon" style="background: #17a2b8;">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stats-number">{{ user.total_designs_created }}</div>
+                        <div class="stats-label">Total Designs</div>
+                        <small class="text-muted">Since {{ user.created_at.strftime('%B %Y') }}</small>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon" style="background: #ffc107;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stats-number">
+                            {% if user.subscription_status.value == 'trial' and subscription_info.trial_end %}
+                                {{ (subscription_info.trial_end - now()).days if (subscription_info.trial_end - now()).days > 0 else 0 }}
+                            {% elif subscription_info.subscription_end %}
+                                {{ (subscription_info.subscription_end - now()).days if (subscription_info.subscription_end - now()).days > 0 else 0 }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </div>
+                        <div class="stats-label">
+                            {% if user.subscription_status.value == 'trial' %}
+                                Trial Days Left
+                            {% else %}
+                                Days Remaining
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-action-card">
+                <h4 class="mb-3">Ready to Create?</h4>
+                <p class="mb-4">Start designing your next architectural masterpiece</p>
+                <a href="{{ url_for('design_interface') }}" class="btn btn-lg me-3">
+                    <i class="fas fa-plus me-2"></i>New Design
+                </a>
+                <a href="{{ url_for('gallery') }}" class="btn btn-lg">
+                    <i class="fas fa-images me-2"></i>View Gallery
+                </a>
+            </div>
+        </div>
+        
+        <!-- Plan Features -->
+        <div class="col-lg-4">
+            <div class="stats-card">
+                <h5 class="mb-3">Your Plan Features</h5>
+                <ul class="feature-list">
+                    <li>
+                        <i class="fas fa-drafting-compass me-2 {{ 'feature-available' if True else 'feature-unavailable' }}"></i>
+                        Professional Blueprints
+                    </li>
+                    <li>
+                        <i class="fas fa-cube me-2 {{ 'feature-available' if features.can_access_3d_view else 'feature-unavailable' }}"></i>
+                        3D Visualization
+                    </li>
+                    <li>
+                        <i class="fas fa-download me-2 {{ 'feature-available' if features.can_download_blueprints else 'feature-unavailable' }}"></i>
+                        Download Blueprints
+                    </li>
+                    <li>
+                        <i class="fas fa-chart-bar me-2 {{ 'feature-available' if features.can_access_analytics else 'feature-unavailable' }}"></i>
+                        Analytics Dashboard
+                    </li>
+                    <li>
+                        <i class="fas fa-save me-2 {{ 'feature-available' if features.can_save_designs else 'feature-unavailable' }}"></i>
+                        Save Designs
+                    </li>
+                    <li>
+                        <i class="fas fa-file-export me-2 {{ 'feature-available' if features.can_export_multiple_formats else 'feature-unavailable' }}"></i>
+                        Multiple Export Formats
+                    </li>
+                    <li>
+                        <i class="fas fa-headset me-2 {{ 'feature-available' if features.priority_support else 'feature-unavailable' }}"></i>
+                        Priority Support
+                    </li>
+                    <li>
+                        <i class="fas fa-cogs me-2 {{ 'feature-available' if features.advanced_customization else 'feature-unavailable' }}"></i>
+                        Advanced Customization
+                    </li>
+                </ul>
+                
+                {% if user.subscription_plan.value != 'elite' %}
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('auth.subscription') }}" class="btn btn-primary">
+                        <i class="fas fa-arrow-up me-2"></i>Upgrade Plan
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Account Info -->
+            <div class="stats-card">
+                <h5 class="mb-3">Account Information</h5>
+                <div class="mb-2">
+                    <strong>Email:</strong><br>
+                    <small class="text-muted">{{ user.email }}</small>
+                </div>
+                <div class="mb-2">
+                    <strong>Member Since:</strong><br>
+                    <small class="text-muted">{{ user.created_at.strftime('%B %d, %Y') }}</small>
+                </div>
+                <div class="mb-3">
+                    <strong>Last Login:</strong><br>
+                    <small class="text-muted">
+                        {% if user.last_login %}
+                            {{ user.last_login.strftime('%B %d, %Y at %I:%M %p') }}
+                        {% else %}
+                            First time login
+                        {% endif %}
+                    </small>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('auth.subscription') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-credit-card me-2"></i>Manage Subscription
+                    </a>
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-sign-out-alt me-2"></i>Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

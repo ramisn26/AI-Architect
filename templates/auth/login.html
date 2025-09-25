@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In - PaviRami Architectural Design System{% endblock %}
+
+{% block extra_css %}
+<style>
+.auth-container {
+    min-height: 100vh;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    max-width: 800px;
+    width: 100%;
+}
+
+.auth-left {
+    background: var(--gradient-secondary);
+    color: white;
+    padding: 60px 40px;
+    border-radius: 20px 0 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.auth-right {
+    padding: 60px 40px;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 12px 15px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.welcome-icon {
+    font-size: 80px;
+    margin-bottom: 30px;
+    opacity: 0.8;
+}
+
+.stats-item {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.stats-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: rgba(255,255,255,0.9);
+}
+
+.stats-label {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+}
+
+.alert {
+    border-radius: 10px;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    .auth-left {
+        padding: 40px 20px;
+    }
+    
+    .auth-right {
+        padding: 40px 20px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="row g-0">
+            <div class="col-lg-5">
+                <div class="auth-left">
+                    <div>
+                        <div class="welcome-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h2 class="mb-4">Welcome Back!</h2>
+                        <p class="mb-4">Continue creating amazing architectural designs</p>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="stats-item">
+                                    <div class="stats-number">10K+</div>
+                                    <div class="stats-label">Designs Created</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stats-item">
+                                    <div class="stats-number">5K+</div>
+                                    <div class="stats-label">Happy Users</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="stats-item">
+                                    <div class="stats-number">99.9%</div>
+                                    <div class="stats-label">Uptime</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stats-item">
+                                    <div class="stats-number">24/7</div>
+                                    <div class="stats-label">Support</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-7">
+                <div class="auth-right">
+                    <div class="text-center mb-4">
+                        <h3 class="text-primary">Sign In to Your Account</h3>
+                        <p class="text-muted">Access your architectural workspace</p>
+                    </div>
+                    
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="remember_me" name="remember_me">
+                                    <label class="form-check-label" for="remember_me">
+                                        Remember me
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-6 text-end">
+                                <a href="#" class="text-primary text-decoration-none">Forgot Password?</a>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 mb-3">
+                            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                        </button>
+                        
+                        <div class="text-center">
+                            <p class="mb-0">Don't have an account? <a href="{{ url_for('auth.signup') }}" class="text-primary">Sign Up</a></p>
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="text-center">
+                        <p class="text-muted mb-2">Or continue with</p>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-dark" disabled>
+                                <i class="fab fa-google me-2"></i>Google (Coming Soon)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    
+    togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        const icon = this.querySelector('i');
+        icon.classList.toggle('fa-eye');
+        icon.classList.toggle('fa-eye-slash');
+    });
+});
+</script>
+{% endblock %}

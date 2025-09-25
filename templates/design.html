@@ -1,0 +1,385 @@
+{% extends "base.html" %}
+
+{% block title %}Design Interface - Architectural Design System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header mb-4">
+                <h1 class="display-5 fw-bold">
+                    <i class="fas fa-pencil-ruler me-3"></i>
+                    Create Your Design
+                </h1>
+                <p class="lead text-muted">
+                    Enter your requirements and let our AI generate a comprehensive architectural design
+                </p>
+            </div>
+        </div>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        {{ error }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-home me-2"></i>
+                        Design Parameters
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="designForm">
+                        <!-- Basic Information -->
+                        <div class="section-header mb-4">
+                            <h6 class="text-primary fw-bold">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Basic Information
+                            </h6>
+                            <hr>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="land_size" class="form-label">
+                                    <i class="fas fa-ruler-combined me-1"></i>
+                                    Land Size (sq.ft) *
+                                </label>
+                                <input type="number" class="form-control" id="land_size" name="land_size" 
+                                       min="300" max="10000" step="50" required>
+                                <div class="form-text">Enter total plot area in square feet</div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="facing" class="form-label">
+                                    <i class="fas fa-compass me-1"></i>
+                                    Building Orientation *
+                                </label>
+                                <select class="form-select" id="facing" name="facing" required>
+                                    <option value="">Select orientation</option>
+                                    <option value="East">East</option>
+                                    <option value="West">West</option>
+                                    <option value="North">North</option>
+                                    <option value="South">South</option>
+                                    <option value="Northeast">Northeast</option>
+                                    <option value="Northwest">Northwest</option>
+                                    <option value="Southeast">Southeast</option>
+                                    <option value="Southwest">Southwest</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="building_type" class="form-label">
+                                    <i class="fas fa-building me-1"></i>
+                                    Building Type *
+                                </label>
+                                <select class="form-select" id="building_type" name="building_type" required>
+                                    <option value="">Select building type</option>
+                                    <option value="Independent House" selected>Independent House</option>
+                                    <option value="Duplex">Duplex</option>
+                                    <option value="Villa">Villa</option>
+                                    <option value="Row House">Row House</option>
+                                    <option value="Apartment">Apartment</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="bedroom_config" class="form-label">
+                                    <i class="fas fa-bed me-1"></i>
+                                    Bedroom Configuration *
+                                </label>
+                                <select class="form-select" id="bedroom_config" name="bedroom_config" required>
+                                    <option value="">Select configuration</option>
+                                    <option value="1BHK">1 BHK</option>
+                                    <option value="2BHK">2 BHK</option>
+                                    <option value="3BHK">3 BHK</option>
+                                    <option value="4BHK">4 BHK</option>
+                                    <option value="5BHK">5 BHK</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Advanced Options -->
+                        <div class="section-header mb-4">
+                            <h6 class="text-primary fw-bold">
+                                <i class="fas fa-cogs me-2"></i>
+                                Advanced Options
+                            </h6>
+                            <hr>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="floors" class="form-label">
+                                    <i class="fas fa-layer-group me-1"></i>
+                                    Number of Floors
+                                </label>
+                                <select class="form-select" id="floors" name="floors">
+                                    <option value="1">1 Floor (Ground)</option>
+                                    <option value="2">2 Floors (G+1)</option>
+                                    <option value="3">3 Floors (G+2)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="staircase_type" class="form-label">
+                                    <i class="fas fa-stairs me-1"></i>
+                                    Staircase Type
+                                </label>
+                                <select class="form-select" id="staircase_type" name="staircase_type">
+                                    <option value="Straight" selected>Straight</option>
+                                    <option value="L-Shaped">L-Shaped</option>
+                                    <option value="U-Shaped">U-Shaped</option>
+                                    <option value="Spiral">Spiral</option>
+                                    <option value="Winder">Winder</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="budget_range" class="form-label">
+                                    <i class="fas fa-rupee-sign me-1"></i>
+                                    Budget Range
+                                </label>
+                                <select class="form-select" id="budget_range" name="budget_range">
+                                    <option value="">Select budget range</option>
+                                    <option value="Low">Low (₹10-20 Lakhs)</option>
+                                    <option value="Medium">Medium (₹20-50 Lakhs)</option>
+                                    <option value="High">High (₹50+ Lakhs)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Special Requirements -->
+                        <div class="section-header mb-4">
+                            <h6 class="text-primary fw-bold">
+                                <i class="fas fa-star me-2"></i>
+                                Special Requirements
+                            </h6>
+                            <hr>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                <div class="form-check-grid">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" 
+                                                       name="special_requirements" value="Pooja Room" id="pooja">
+                                                <label class="form-check-label" for="pooja">
+                                                    Pooja Room
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" 
+                                                       name="special_requirements" value="Study Room" id="study">
+                                                <label class="form-check-label" for="study">
+                                                    Study Room
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" 
+                                                       name="special_requirements" value="Home Theater" id="theater">
+                                                <label class="form-check-label" for="theater">
+                                                    Home Theater
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" 
+                                                       name="special_requirements" value="Gym" id="gym">
+                                                <label class="form-check-label" for="gym">
+                                                    Gym/Fitness Area
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" 
+                                                       name="special_requirements" value="Swimming Pool" id="pool">
+                                                <label class="form-check-label" for="pool">
+                                                    Swimming Pool
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" 
+                                                       name="special_requirements" value="Garden" id="garden">
+                                                <label class="form-check-label" for="garden">
+                                                    Garden Area
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg" id="generateBtn">
+                                <i class="fas fa-magic me-2"></i>
+                                Generate Design
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar with Tips -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-info text-white">
+                    <h6 class="card-title mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        Design Tips
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="tip-item mb-3">
+                        <h6 class="text-info">
+                            <i class="fas fa-compass me-2"></i>
+                            Orientation Matters
+                        </h6>
+                        <p class="small text-muted mb-0">
+                            East-facing homes get morning sunlight, while west-facing homes are ideal for evening views.
+                        </p>
+                    </div>
+                    
+                    <div class="tip-item mb-3">
+                        <h6 class="text-info">
+                            <i class="fas fa-home me-2"></i>
+                            Vastu Guidelines
+                        </h6>
+                        <p class="small text-muted mb-0">
+                            Kitchen in southeast, master bedroom in southwest, and main entrance in northeast are ideal.
+                        </p>
+                    </div>
+                    
+                    <div class="tip-item mb-3">
+                        <h6 class="text-info">
+                            <i class="fas fa-ruler me-2"></i>
+                            Plot Size Guide
+                        </h6>
+                        <p class="small text-muted mb-0">
+                            Minimum 600 sq.ft for 1BHK, 800 sq.ft for 2BHK, and 1200 sq.ft for 3BHK recommended.
+                        </p>
+                    </div>
+                    
+                    <div class="tip-item mb-0">
+                        <h6 class="text-info">
+                            <i class="fas fa-drafting-compass me-2"></i>
+                            Professional Blueprints
+                        </h6>
+                        <p class="small text-muted mb-0">
+                            Our enhanced system generates construction-ready blueprints with proper architectural symbols, dimensions, and industry-standard title blocks.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h6 class="card-title mb-0">
+                        <i class="fas fa-download me-2"></i>
+                        What You'll Get
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            <strong>Industry-Ready 2D Floor Plans</strong>
+                            <small class="d-block text-muted">With professional symbols, dimensions & title blocks</small>
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            3D exterior visualizations
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Space utilization analytics
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Cost estimation report
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Design rationale document
+                        </li>
+                        <li class="mb-0">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Downloadable ZIP package
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center py-5">
+                <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5>Generating Your Design...</h5>
+                <p class="text-muted mb-0">This may take a few moments. Please don't close this window.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('designForm').addEventListener('submit', function() {
+    // Show loading modal
+    var loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+    loadingModal.show();
+    
+    // Disable submit button
+    document.getElementById('generateBtn').disabled = true;
+});
+
+// Dynamic staircase field visibility
+document.getElementById('floors').addEventListener('change', function() {
+    const staircaseField = document.getElementById('staircase_type');
+    const floors = parseInt(this.value);
+    
+    if (floors > 1) {
+        staircaseField.required = true;
+        staircaseField.parentElement.style.display = 'block';
+    } else {
+        staircaseField.required = false;
+        staircaseField.value = '';
+        staircaseField.parentElement.style.display = 'none';
+    }
+});
+
+// Initialize staircase field visibility
+document.getElementById('floors').dispatchEvent(new Event('change'));
+</script>
+{% endblock %}

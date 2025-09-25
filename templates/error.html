@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block title %}Error - Architectural Design System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="text-center py-5">
+                <!-- Error Icon -->
+                <div class="error-icon mb-4">
+                    <i class="fas fa-exclamation-triangle fa-5x text-warning"></i>
+                </div>
+                
+                <!-- Error Title -->
+                <h1 class="display-4 fw-bold text-dark mb-3">Oops!</h1>
+                <h2 class="h4 text-muted mb-4">Something went wrong</h2>
+                
+                <!-- Error Message -->
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    {{ error }}
+                </div>
+                {% else %}
+                <p class="lead text-muted mb-4">
+                    We encountered an unexpected error while processing your request. 
+                    Please try again or contact support if the problem persists.
+                </p>
+                {% endif %}
+                
+                <!-- Action Buttons -->
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <button onclick="history.back()" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Go Back
+                    </button>
+                    <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-home me-2"></i>
+                        Home Page
+                    </a>
+                </div>
+                
+                <!-- Additional Help -->
+                <div class="mt-5">
+                    <h5 class="text-muted mb-3">Need Help?</h5>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <a href="{{ url_for('design_interface') }}" class="text-decoration-none">
+                                <div class="card border-0 shadow-sm h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-pencil-ruler fa-2x text-primary mb-2"></i>
+                                        <h6 class="card-title">Start New Design</h6>
+                                        <p class="card-text small text-muted">Create a fresh design</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <a href="{{ url_for('gallery') }}" class="text-decoration-none">
+                                <div class="card border-0 shadow-sm h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-images fa-2x text-success mb-2"></i>
+                                        <h6 class="card-title">View Gallery</h6>
+                                        <p class="card-text small text-muted">Browse existing designs</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <a href="{{ url_for('about') }}" class="text-decoration-none">
+                                <div class="card border-0 shadow-sm h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-info-circle fa-2x text-info mb-2"></i>
+                                        <h6 class="card-title">Learn More</h6>
+                                        <p class="card-text small text-muted">About our system</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="mt-5 p-4 bg-light rounded">
+                    <h6 class="text-muted mb-3">
+                        <i class="fas fa-headset me-2"></i>
+                        Still having issues?
+                    </h6>
+                    <p class="text-muted mb-0">
+                        If you continue to experience problems, please try refreshing the page 
+                        or clearing your browser cache. For persistent issues, our support team 
+                        is here to help.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.error-icon {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .error-icon i {
+        font-size: 3rem !important;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Auto-refresh option for temporary errors
+let refreshTimer;
+
+function startAutoRefresh() {
+    const refreshBtn = document.createElement('button');
+    refreshBtn.className = 'btn btn-outline-secondary btn-sm mt-3';
+    refreshBtn.innerHTML = '<i class="fas fa-sync-alt me-1"></i> Auto-refresh in <span id="countdown">30</span>s';
+    
+    document.querySelector('.d-grid').appendChild(refreshBtn);
+    
+    let countdown = 30;
+    refreshTimer = setInterval(() => {
+        countdown--;
+        document.getElementById('countdown').textContent = countdown;
+        
+        if (countdown <= 0) {
+            clearInterval(refreshTimer);
+            window.location.reload();
+        }
+    }, 1000);
+    
+    refreshBtn.addEventListener('click', () => {
+        clearInterval(refreshTimer);
+        window.location.reload();
+    });
+}
+
+// Check if error is likely temporary (network issues, etc.)
+const errorMessage = '{{ error|default("") }}';
+if (errorMessage.toLowerCase().includes('network') || 
+    errorMessage.toLowerCase().includes('timeout') ||
+    errorMessage.toLowerCase().includes('connection')) {
+    startAutoRefresh();
+}
+
+// Track error for analytics (if needed)
+if (typeof gtag !== 'undefined') {
+    gtag('event', 'exception', {
+        'description': errorMessage || 'Unknown error',
+        'fatal': false
+    });
+}
+</script>
+{% endblock %}

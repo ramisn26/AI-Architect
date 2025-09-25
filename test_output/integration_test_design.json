@@ -1,0 +1,78 @@
+{
+  "input_parameters": {
+    "land_size": 1500.0,
+    "facing": "East",
+    "building_type": "Duplex",
+    "bedroom_config": "3BHK",
+    "staircase_type": "L-Shaped",
+    "floors": 2,
+    "budget_range": "High",
+    "special_requirements": [
+      "Pooja Room",
+      "Study Room"
+    ]
+  },
+  "far_recommendation": 1.56,
+  "setbacks": {
+    "front": 8.0,
+    "rear": 5.0,
+    "left": 5.0,
+    "right": 5.0
+  },
+  "room_allocation": {
+    "living_room": 184.80345759307352,
+    "kitchen": 88.70565964467528,
+    "bedrooms": {
+      "master_bedroom": 133.05848946701292,
+      "bedroom_2": 110.88207455584411,
+      "bedroom_3": 110.88207455584411
+    },
+    "bathrooms": {
+      "master_bathroom": 94.61937028765365,
+      "bathroom_2": 47.30968514382682,
+      "bathroom_3": 47.30968514382682,
+      "bathroom_4": 47.30968514382682
+    },
+    "balcony": 59.13710642978353,
+    "corridors": 73.9213830372294,
+    "staircase": 29.568553214891764,
+    "parking": 0.0,
+    "utility": 22.17641491116882,
+    "pooja_room": 0
+  },
+  "structural_recommendations": {
+    "foundation_type": "Isolated Footing with Tie Beams",
+    "wall_material": "9-inch Brick Masonry with Thermal Insulation",
+    "roofing_system": "RCC Slab with Thermal Insulation and Waterproofing",
+    "ventilation_strategy": "Cross ventilation with East-West openings, avoid afternoon sun",
+    "natural_light_optimization": "Maximize east facing windows, use light wells for interior spaces",
+    "circulation_flow": "Central corridor with direct access to all rooms, separate service and guest circulation"
+  },
+  "design_rationale": {
+    "orientation_benefits": "Maximum morning sunlight, positive energy flow",
+    "ventilation_strategy": "Optimized for East orientation:\n        - Main openings positioned to capture prevailing winds\n        - Cross ventilation planned for maximum air circulation\n        - Strategic placement of windows to avoid harsh sunlight\n        - Natural light maximized during optimal hours",
+    "vastu_compliance": "Vastu principles applied:\n        - Main entrance: East or Northeast\n        - Kitchen placement: Southeast\n        - Master bedroom: Southwest\n        - Pooja room: Northeast\n        - Water bodies and utilities positioned as per Vastu guidelines",
+    "zoning_compliance": "Design complies with:\n        - Local building bylaws and setback requirements\n        - Fire safety norms with adequate escape routes\n        - Parking requirements as per local regulations\n        - Height restrictions and FAR compliance\n        - Accessibility guidelines for differently-abled",
+    "expansion_potential": "Future expansion possibilities:\n        - Vertical expansion up to 1 additional floors\n        - Horizontal expansion within setback limits\n        - Provision for additional parking spaces\n        - Infrastructure ready for solar panels and rainwater harvesting",
+    "sustainability_features": [
+      "Rainwater harvesting system",
+      "Solar panel ready rooftop",
+      "Natural ventilation to reduce AC load",
+      "LED lighting provisions",
+      "Waste segregation and composting area",
+      "Native landscaping for low maintenance"
+    ]
+  },
+  "space_efficiency": {
+    "total_built_area": 1478.4276607445881,
+    "carpet_area": 709.6452771574022,
+    "efficiency_ratio": 0.4799999999999999,
+    "utilization_score": 70.0,
+    "recommendations": [
+      "Consider reducing corridor width to increase usable area",
+      "Optimize wall thickness and structural elements"
+    ]
+  },
+  "total_cost_estimate": 2956855.3214891762,
+  "timeline_estimate": "1 year 3 months"
+}
