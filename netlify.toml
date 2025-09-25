@@ -2,15 +2,9 @@
 [build]
   # Build command to set up Python environment and install dependencies
   command = """
-    curl -o python.tar.xz https://www.python.org/ftp/python/3.10.5/Python-3.10.5.tar.xz &&
-    tar xf python.tar.xz &&
-    cd Python-3.10.5 &&
-    ./configure --enable-optimizations &&
-    make -j $(nproc) &&
-    make install &&
-    cd .. &&
-    python3.10 -m pip install --upgrade pip setuptools wheel &&
-    python3.10 -m pip install -r netlify/functions/requirements.txt
+    mise use python@3.10.5 &&
+    python -m pip install --upgrade pip setuptools wheel &&
+    python -m pip install -r netlify/functions/requirements.txt
   """
   # Publish static files
   publish = "static"
