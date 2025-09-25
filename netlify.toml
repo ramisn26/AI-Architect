@@ -1,23 +1,24 @@
+
 [build]
-  # Build command - not needed for Python Flask apps
-  command = "echo 'No build step required for Flask app'"
-  
-  # Publish directory - Flask serves from root
-  publish = "."
+  # No build step required for static site
+  command = "echo 'No build step required'"
+  # Publish static files
+  publish = "static"
 
 [build.environment]
   # Python version
   PYTHON_VERSION = "3.10"
 
-# Redirect all routes to Flask app
+
+# Redirect API requests to Netlify Functions
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/app/:splat"
+  from = "/api/generate_design"
+  to = "/.netlify/functions/generate_design"
   status = 200
 
 [[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/app"
+  from = "/api/generate_floor_plan"
+  to = "/.netlify/functions/generate_floor_plan"
   status = 200
 
 # Headers for security
