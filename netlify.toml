@@ -1,23 +1,34 @@
+
 [build]
-  # Build command - not needed for Python Flask apps
-  command = "echo 'No build step required for Flask app'"
-  
-  # Publish directory - Flask serves from root
-  publish = "."
+  # Build command to set up Python environment and install dependencies
+  command = """
+    mise use python@3.10.5 &&
+    python -m pip install --upgrade pip setuptools wheel &&
+    python -m pip install -r netlify/functions/requirements.txt
+  """
+  # Publish static files
+  publish = "static"
+
+[functions]
+  # Directory where functions are located
+  directory = "netlify/functions"
 
 [build.environment]
-  # Python version
-  PYTHON_VERSION = "3.10"
+  # Python version for build
+  PYTHON_VERSION = "3.10.5"
+  # Ensure pip is up to date
+  PIP_VERSION = "23.1.2"
 
-# Redirect all routes to Flask app
+
+# Redirect API requests to Netlify Functions
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/app/:splat"
+  from = "/api/generate_design"
+  to = "/.netlify/functions/generate_design"
   status = 200
 
 [[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/app"
+  from = "/api/generate_floor_plan"
+  to = "/.netlify/functions/generate_floor_plan"
   status = 200
 
 # Headers for security
