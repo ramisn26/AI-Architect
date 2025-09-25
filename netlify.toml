@@ -7,7 +7,7 @@
 
 [build.environment]
   # Python version
-  PYTHON_VERSION = "3.10"
+  PYTHON_VERSION = "3.10.5"
   # Ensure pip is up to date
   PIP_VERSION = "23.1.2"
 
