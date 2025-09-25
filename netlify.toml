@@ -1,13 +1,23 @@
 
 [build]
-  # Build command to install dependencies
-  command = "pip install -r netlify/functions/requirements.txt"
+  # Build command to set up Python environment and install dependencies
+  command = """
+    curl -o python.tar.xz https://www.python.org/ftp/python/3.10.5/Python-3.10.5.tar.xz &&
+    tar xf python.tar.xz &&
+    cd Python-3.10.5 &&
+    ./configure --enable-optimizations &&
+    make -j $(nproc) &&
+    make install &&
+    cd .. &&
+    python3.10 -m pip install --upgrade pip setuptools wheel &&
+    python3.10 -m pip install -r netlify/functions/requirements.txt
+  """
   # Publish static files
   publish = "static"
 
 [functions]
-  # Specify Python runtime version for functions
-  external_node_modules = ["python-3.10.5"]
+  # Directory where functions are located
+  directory = "netlify/functions"
 
 [build.environment]
   # Python version for build
