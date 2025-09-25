@@ -5,8 +5,12 @@
   # Publish static files
   publish = "static"
 
+[functions]
+  # Specify Python runtime version for functions
+  external_node_modules = ["python-3.10.5"]
+
 [build.environment]
-  # Python version
+  # Python version for build
   PYTHON_VERSION = "3.10.5"
   # Ensure pip is up to date
   PIP_VERSION = "23.1.2"
