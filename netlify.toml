@@ -1,13 +1,15 @@
 
 [build]
-  # No build step required for static site
-  command = "echo 'No build step required'"
+  # Build command to install dependencies
+  command = "pip install -r netlify/functions/requirements.txt"
   # Publish static files
   publish = "static"
 
 [build.environment]
   # Python version
   PYTHON_VERSION = "3.10"
+  # Ensure pip is up to date
+  PIP_VERSION = "23.1.2"
 
 
 # Redirect API requests to Netlify Functions
